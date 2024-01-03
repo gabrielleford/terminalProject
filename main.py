@@ -1,5 +1,6 @@
 # College life sim
 import json
+from start import start_screen_title, start_new, start_new_or_load, intro
 
 seasons_dict = {1: 'Autumn', 2: 'Winter', 3: 'Spring', 4: 'Summer'}
 grade_levels_dict = {1: 'Freshman', 2: 'Sophomore', 3: 'Junior', 4: 'Senior'}
@@ -20,6 +21,12 @@ class Student:
   def __init__(self, name):
     self.name = name
 
+print(
+  start_screen_title,
+  start_new,
+  start_new_or_load,
+  intro
+)
 
 player_name = input('What\'s your name?\n')
 print ('Hello', player_name)

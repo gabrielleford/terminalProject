@@ -1,3 +1,8 @@
+'''
+Art from https://www.asciiart.eu/books/books & https://emojicombos.com/deco-ascii-art
+Lettering from https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20
+'''
+
 start_screen_title = '''
  __          __    _                                  _                   
  \ \        / /   | |                                | |                  
@@ -23,6 +28,16 @@ start_screen_title = '''
     \____/ |_| |_||_|  \_/  \___||_|   |___/|_| \__| \__, |(_) 
                                                       __/ |    
                                                      |___/         
+                 .--.                   .---.
+             .---|__|           .-.     |~~~|
+          .--|===|--|_          |_|     |~~~|--.
+          |  |===|  |'\     .---!~|  .--|   |--|
+          |%%|   |  |.'\    |===| |--|%%|   |  |
+          |%%|   |  |\.'\   |   | |__|  |   |  |
+          |  |   |  | \  \  |===| |==|  |   |  |
+          |  |   |__|  \.'\ |   |_|__|  |~~~|__|
+          |  |===|--|   \.'\|===|~|--|%%|~~~|--|
+          ^--^---'--^    `-'`---^-^--^--^---'--' hjw
 '''
 
 start_new = '''
