@@ -1,5 +1,6 @@
 # College life sim
 import json
+import os
 from start import start_screen_title, start_new, start_new_or_load, intro
 
 seasons_dict = {1: 'Autumn', 2: 'Winter', 3: 'Spring', 4: 'Summer'}
@@ -21,20 +22,30 @@ class Student:
   def __init__(self, name):
     self.name = name
 
-print(
-  start_screen_title,
-  start_new,
-  start_new_or_load,
-  intro
-)
+if os.path.exists('save_file') == True:
+  print(
+    start_screen_title,
+    start_new_or_load
+  )
+  with open('save_file', 'r') as save:
+    data = save.read()
+    save_data = data
+  print(save_data)
+else:
+  print(
+    start_screen_title,
+    start_new,
+    intro
+  )
+  player_name = input('What\'s your name?\n')
+  print ('Hello', player_name)
+  player = Student(player_name)
 
-player_name = input('What\'s your name?\n')
-print ('Hello', player_name)
-player = Student(player_name)
+  save_data = {
+    'player_name': player.name,
+    'current_season': School.season,
+    'current_day': School.day
+  }
 
-save_data = {
-  'player_name': player.name
-}
-
-with open('save_file', 'w') as save:
-  json.dump(save_data, save)
+  with open('save_file', 'w') as save:
+    json.dump(save_data, save)
