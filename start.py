@@ -1,4 +1,4 @@
-print('''
+start_screen_title = '''
  __          __    _                                  _                   
  \ \        / /   | |                                | |                  
   \ \  /\  / /___ | |  ___   ___   _ __ ___    ___   | |_   ___            
@@ -23,10 +23,25 @@ print('''
     \____/ |_| |_||_|  \_/  \___||_|   |___/|_| \__| \__, |(_) 
                                                       __/ |    
                                                      |___/         
-''')
-print('''
+'''
+
+start_new = '''
+            ╭                              ••• ╮
+                      1: Start New Game
+            ╰ •••                              ╯
+'''
+
+start_new_or_load = '''
             ╭                              ••• ╮
                       1: Start New Game
                       2: Load Save
             ╰ •••                              ╯
-''')
+'''
+
+intro = '''
+Welcome to Oxbridge University, a text-based college life sim!
+Go to class, meet new people and explore all that Oxbridge has to offer!
+
+Features:
+...
+'''
