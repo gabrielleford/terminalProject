@@ -21,24 +21,20 @@ class Location:
 
 class Student:
   def __init__(self):
-    pass
+    self.name = ''
 
-class Player(Student):
-  def __init__(self):
-    super().__init__()
+class Player:
+  def __init__(self, name):
+    self.name = name
 
-player = Player()
+def load_save(player:Player):
+  with open('save_file.json', 'r') as save:
+    data = json.load(save)
+    print(data)
 
-def load_save():
-  with open('save_file.txt', 'r') as save:
-    data = save.read()
-    save_data = data
-  print(save_data)
-
-def create_player():
+def create_player(player:Player):
   confirmed = False
   redo = False
-  player.name = ''
   while not confirmed:
     if redo == True:
       player_name = input('I\'m sorry about that, please enter your name again.\n>>> ')
@@ -60,18 +56,17 @@ def create_player():
   player.name = player_name
 
   save_data = {
-    'player_name': player.name,
-    'current_season': School.season,
-    'current_day': School.day
+    'player.name': player.name,
+    'School.season': School.season,
+    'School.day': School.day
   }
 
-  with open('save_file.txt', 'w') as save:
+  with open('save_file.json', 'w') as save:
     json.dump(save_data, save)
 
-
-
 def launch():
-  if os.path.exists('save_file.txt') == True:
+  if os.path.exists('save_file.json') == True:
+    player = Player('')
     print(
       start_screen_title,
       start_new_or_load
@@ -86,9 +81,9 @@ def launch():
             confirm = input('Please confirm that you want to START OVER\n(y/n)>>> ')
             if confirm in y_n_resp:
               if confirm == 'y':
-                os.remove('save_file.txt')
+                os.remove('save_file.json')
                 confirmed = True
-                create_player()
+                create_player(player)
                 break
               elif confirm == 'n':
                 break
@@ -100,7 +95,7 @@ def launch():
             if confirm in y_n_resp:
               if confirm == 'y':
                 confirmed = True
-                load_save()
+                load_save(player)
                 break
               elif confirm == 'n':
                 break
@@ -108,6 +103,7 @@ def launch():
           break
         print('That\'s an invalid input, please try again.')
   else:
+    player = Player('')
     print(
       start_screen_title,
       start_new,
@@ -117,7 +113,7 @@ def launch():
     while True:
       start_input = input('Type \'1\' and press enter to start your life at Oxbridge University!\n>>> ')
       if start_input == '1':
-        create_player()
+        create_player(player)
         break
       print('That\'s an invalid input, please try again.')
 
