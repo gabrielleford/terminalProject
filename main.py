@@ -19,27 +19,21 @@ class Location:
     pass
 
 class Student:
-  def __init__(self, name):
-    self.name = name
+  def __init__(self):
+    pass
 
-if os.path.exists('save_file') == True:
-  print(
-    start_screen_title,
-    start_new_or_load
-  )
+player = Student()
+
+def load_save():
   with open('save_file', 'r') as save:
     data = save.read()
     save_data = data
   print(save_data)
-else:
-  print(
-    start_screen_title,
-    start_new,
-    intro
-  )
+
+def start():
   player_name = input('What\'s your name?\n')
   print ('Hello', player_name)
-  player = Student(player_name)
+  player.name = player_name
 
   save_data = {
     'player_name': player.name,
@@ -49,3 +43,35 @@ else:
 
   with open('save_file', 'w') as save:
     json.dump(save_data, save)
+
+def launch():
+  if os.path.exists('save_file') == True:
+    print(
+      start_screen_title,
+      start_new_or_load
+    )
+    start_input = None
+    while True:
+      start_input = input('Type \'1\' and press enter to start a new story at Oxbridge University\n or type \'2\' to continue your previous story.')
+      if start_input == '1':
+        start()
+        break
+      elif start_input == '2':
+        load_save()
+        break
+      print('That\'s an invalid input, please try again.')
+  else:
+    print(
+      start_screen_title,
+      start_new,
+      intro
+    )
+    start_input = None
+    while True:
+      start_input = input('Type \'1\' and press enter to start your life at Oxbridge University!\n')
+      if start_input == '1':
+        start()
+        break
+      print('That\'s an invalid input, please try again.')
+
+launch()
