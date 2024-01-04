@@ -41,11 +41,11 @@ def create_player():
   player.name = ''
   while not confirmed:
     if redo == True:
-      player_name = input('I\'m sorry about that, please enter your name again.\n')
+      player_name = input('I\'m sorry about that, please enter your name again.\n>>> ')
     else: 
-      player_name = input('Hi, and welcome to your first day at Oxbridge University! What\'s your name?\n')
+      player_name = input('Hi, and welcome to your first day at Oxbridge University! What\'s your name?\n>>> ')
     while True:
-      confirm = input(f'I have you down as {player_name}. Is that correct?\n(y/n) ')
+      confirm = input(f'I have you down as {player_name}. Is that correct?\n(y/n)>>> ')
       if confirm in y_n_resp:
         if confirm == 'y':
           player.name = player_name
@@ -80,10 +80,10 @@ def launch():
     confirmed = False
     while not confirmed:
       while True:
-        start_input = input('Type \'1\' and press enter to start a new story at Oxbridge University\nor type \'2\' to continue your previous story.\n')
+        start_input = input('Type \'1\' and press enter to start a new story at Oxbridge University\nor type \'2\' to continue your previous story.\n>>> ')
         if start_input == '1':
           while True:
-            confirm = input('Please confirm that you want to START OVER\n(y/n) ')
+            confirm = input('Please confirm that you want to START OVER\n(y/n)>>> ')
             if confirm in y_n_resp:
               if confirm == 'y':
                 os.remove('save_file.txt')
@@ -96,7 +96,7 @@ def launch():
           break
         elif start_input == '2':
           while True:
-            confirm = input('Please confirm that you want to LOAD SAVE\n(y/n) ')
+            confirm = input('Please confirm that you want to LOAD SAVE\n(y/n)>>> ')
             if confirm in y_n_resp:
               if confirm == 'y':
                 confirmed = True
@@ -115,7 +115,7 @@ def launch():
     )
     start_input = None
     while True:
-      start_input = input('Type \'1\' and press enter to start your life at Oxbridge University!\n')
+      start_input = input('Type \'1\' and press enter to start your life at Oxbridge University!\n>>> ')
       if start_input == '1':
         create_player()
         break
