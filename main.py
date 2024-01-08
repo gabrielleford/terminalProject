@@ -34,17 +34,20 @@ class Location:
           --> {'enemy1 name': -20}
   romantic_interest: list of dictionaries formatted with name of NPC's name key with interest level value, a status of bf/gf key &a boolean value 
           --> {'love interest name': 45, 'bf/gf': False}
+  personality_traits: list of where they fall on the Big Five personality traits (conscientiousness, agreeableness, neuroticism, openness to experience, extraversion)
+          --> ['extravagant/careless', 'friendly/compassionate', ...]
 
   May move the friends, enemies, and romantic_interest to be only on the player
   '''
 class Student:
-  def __init__(self, name, gpa, courses, friends, enemies, romantic_interest):
+  def __init__(self, name, gpa, courses, friends, enemies, romantic_interest, personality_traits):
     self.name = name
     self.gpa = gpa
     self.courses = courses
     self.friends = friends
     self.enemies = enemies
     self.romantic_interest = romantic_interest
+    self.personality_traits = personality_traits
 
   def calculateGPA(self):
     for value in self.courses.values():
@@ -59,11 +62,11 @@ class NpcStudent(Student):
   def __init__(self, name, gpa, courses, friends, enemies, romantic_interest):
     super().__init__(name, gpa, courses, friends, enemies, romantic_interest)  
 
-player = Player('Brielle', 0, {}, {}, {}, {})
+player = Player('Brielle', 0, {}, {}, {}, {}, [])
 print(player.name)
 print(player.gpa)
 print(player.courses)
-player.courses = {'Art': 'B+', 'English': 'A', 'Science': 'B-'}
+player.courses = {'Art': 'B+', 'English': 'A', 'Science': 'B-', 'Computer Science': 'C'}
 print(len(player.courses))
 player.calculateGPA()
 print(player.gpa)
