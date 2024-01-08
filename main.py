@@ -49,7 +49,7 @@ class Student:
   def calculateGPA(self):
     for value in self.courses.values():
       self.gpa += calc_gpa[value]
-    self.gpa = self.gpa/3
+    self.gpa = self.gpa/len(self.courses)
 
 class Player(Student):
   def __init__(self, name, gpa, courses, friends, enemies, romantic_interest):
@@ -64,6 +64,7 @@ print(player.name)
 print(player.gpa)
 print(player.courses)
 player.courses = {'Art': 'B+', 'English': 'A', 'Science': 'B-'}
+print(len(player.courses))
 player.calculateGPA()
 print(player.gpa)
 
