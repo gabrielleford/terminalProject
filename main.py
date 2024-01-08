@@ -1,7 +1,7 @@
 # College life sim
 import json
 import os
-from reusable import y_n_resp
+from reusable import y_n_resp, prcnt_to_grade as prcnt, grade_to_gpa as calc_gpa
 from start import start_screen_title, start_new, start_new_or_load, intro
 
 seasons_dict = {1: 'Autumn', 2: 'Winter', 3: 'Spring', 4: 'Summer'}
@@ -19,22 +19,53 @@ class Location:
   def __init__(self):
     pass
 
+# Base class for all students
+  '''
+  ╭ ---------------- ╮
+  *    Attributes    *
+  ╰ ---------------- ╯
+  name: string
+  gpa: float
+  courses: dictionary formatted with each course as the key and the grade as value 
+          --> {'English': B-}
+  friends: dictionary formatted with the friend's name as the key and the friendship level as the value 
+          --> {'friend1 name': 50}
+  enemies: dictionary formatted the same as friends, but will be anything less than 0 
+          --> {'enemy1 name': -20}
+  romantic_interest: list of dictionaries formatted with name of NPC's name key with interest level value, a status of bf/gf key &a boolean value 
+          --> {'love interest name': 45, 'bf/gf': False}
+
+  May move the friends, enemies, and romantic_interest to be only on the player
+  '''
 class Student:
-  def __init__(self, name, courses = None, friends = None, enemies = None, romantic_interest = None):
+  def __init__(self, name, gpa, courses, friends, enemies, romantic_interest):
     self.name = name
+    self.gpa = gpa
     self.courses = courses
     self.friends = friends
     self.enemies = enemies
     self.romantic_interest = romantic_interest
 
+  def calculateGPA(self):
+    for value in self.courses.values():
+      self.gpa += calc_gpa[value]
+    self.gpa = self.gpa/3
+
 class Player(Student):
-  def __init__(self, name):
-    super().__init__(name)
+  def __init__(self, name, gpa, courses, friends, enemies, romantic_interest):
+    super().__init__(name, gpa, courses, friends, enemies, romantic_interest)
 
-  
+class NpcStudent(Student):
+  def __init__(self, name, gpa, courses, friends, enemies, romantic_interest):
+    super().__init__(name, gpa, courses, friends, enemies, romantic_interest)  
 
-player = Player('Brielle')
+player = Player('Brielle', 0, {}, {}, {}, {})
 print(player.name)
+print(player.gpa)
+print(player.courses)
+player.courses = {'Art': 'B+', 'English': 'A', 'Science': 'B-'}
+player.calculateGPA()
+print(player.gpa)
 
 # def load_save(player:Player):
 #   with open('save_file.json', 'r') as save:
