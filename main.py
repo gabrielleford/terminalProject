@@ -1,6 +1,7 @@
 # College life sim
 import json
 import os
+import random
 from reusable import y_n_resp, prcnt_to_grade as prcnt, grade_to_gpa as calc_gpa
 from start import start_screen_title, start_new, start_new_or_load, intro
 
@@ -10,6 +11,8 @@ locations_list = ['Auditorium', 'Bar', 'Basketball Court', 'Bookstore', 'Cafeter
 majors = ['Architecture', 'Art', 'Biology', 'Business', 'Chemistry', 'Computer Science', 'Criminology', 'Education', 'Economics', 'Engineering', 'Health', 'History', 'Mathematics', 'Sociology', 'Writing']
 
 class School:
+  fem = 0
+  masc = 0
   def __init__(self):
     self.name = 'Oxbridge University'
     self.season = seasons_dict[1]
@@ -40,14 +43,14 @@ class Location:
   May move the friends, enemies, and romantic_interest to be only on the player
   '''
 class Student:
-  def __init__(self, name, gpa, courses, friends, enemies, romantic_interest, personality_traits):
-    self.name = name
-    self.gpa = gpa
-    self.courses = courses
-    self.friends = friends
-    self.enemies = enemies
-    self.romantic_interest = romantic_interest
-    self.personality_traits = personality_traits
+  def __init__(self):
+    self.name = ''
+    self.gpa = 0
+    self.courses = {}
+    self.friends = {}
+    self.enemies = {}
+    self.romantic_interest = {}
+    self.personality_traits = {}
 
   def calculateGPA(self):
     for value in self.courses.values():
@@ -55,21 +58,30 @@ class Student:
     self.gpa = self.gpa/len(self.courses)
 
 class Player(Student):
-  def __init__(self, name, gpa, courses, friends, enemies, romantic_interest):
-    super().__init__(name, gpa, courses, friends, enemies, romantic_interest)
+  def __init__(self):
+    super().__init__()
+    
 
 class NpcStudent(Student):
-  def __init__(self, name, gpa, courses, friends, enemies, romantic_interest):
-    super().__init__(name, gpa, courses, friends, enemies, romantic_interest)  
+  def __init__(self):
+    super().__init__()
+    coin_flip = random.randint(1, 2)
+    print(coin_flip)
+    if coin_flip == 1: self.fem = True
+    elif coin_flip == 2: self.fem = False
+    
 
-player = Player('Brielle', 0, {}, {}, {}, {}, [])
+player = Player()
+player.name = 'Brielle'
 print(player.name)
-print(player.gpa)
-print(player.courses)
-player.courses = {'Art': 'B+', 'English': 'A', 'Science': 'B-', 'Computer Science': 'C'}
-print(len(player.courses))
-player.calculateGPA()
-print(player.gpa)
+# print(player.gpa)
+# print(player.courses)
+# player.courses = {'Art': 'B+', 'English': 'A', 'Science': 'B-', 'Computer Science': 'C'}
+# print(len(player.courses))
+# player.calculateGPA()
+# print(player.gpa)
+npc = NpcStudent()
+print(npc.fem)
 
 # def load_save(player:Player):
 #   with open('save_file.json', 'r') as save:
