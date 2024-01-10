@@ -13,10 +13,28 @@ majors = ['Architecture', 'Art', 'Biology', 'Business', 'Chemistry', 'Computer S
 class School:
   fem = 0
   masc = 0
+  actions = 0
+  name = 'Oxbridge University'
+  season = seasons_dict[1]
+  day = 1
+
   def __init__(self):
-    self.name = 'Oxbridge University'
-    self.season = seasons_dict[1]
-    self.day = 1
+    students = []
+
+  def changeDay(self):
+    if School.actions >= 6:
+      School.day += 1
+      if School.day == 4 and School.season == seasons_dict[4]:
+        School.season = seasons_dict[1]
+        School.day = 1
+      elif School.day == 4:
+        for num in range(1, 4):
+          School.day = 1
+          if School.season == seasons_dict[num]:
+            School.season = seasons_dict[num + 1]
+            break
+      School.actions = 0
+        
 
 class Location:
   def __init__(self):
@@ -74,14 +92,7 @@ class NpcStudent(Student):
 player = Player()
 player.name = 'Brielle'
 print(player.name)
-# print(player.gpa)
-# print(player.courses)
-# player.courses = {'Art': 'B+', 'English': 'A', 'Science': 'B-', 'Computer Science': 'C'}
-# print(len(player.courses))
-# player.calculateGPA()
-# print(player.gpa)
-npc = NpcStudent()
-print(npc.fem)
+
 
 # def load_save(player:Player):
 #   with open('save_file.json', 'r') as save:
