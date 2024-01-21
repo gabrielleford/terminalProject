@@ -4,11 +4,14 @@ import os
 import random
 from reusable import y_n_resp, prcnt_to_grade as prcnt, grade_to_gpa as calc_gpa
 from start import start_screen_title, start_new, start_new_or_load, intro
+from data import fem_names, masc_names, surnames
 
 seasons_dict = {1: 'Autumn', 2: 'Winter', 3: 'Spring', 4: 'Summer'}
 grade_levels_dict = {1: 'Freshman', 2: 'Sophomore', 3: 'Junior', 4: 'Senior'}
-locations_list = ['Auditorium', 'Bar', 'Basketball Court', 'Bookstore', 'Cafeteria', 'Classroom', 'Clothing store', 'Club', 'Dorms', 'Football Field', 'Grocery Store', 'Gym', 'Hallway', 'Library', 'Lab', 'Laundry Room', 'Restaurant', 'Stadium', 'Stairwell', 'Quad']
-majors = ['Architecture', 'Art', 'Biology', 'Business', 'Chemistry', 'Computer Science', 'Criminology', 'Education', 'Economics', 'Engineering', 'Health', 'History', 'Mathematics', 'Sociology', 'Writing']
+locations_list = ['Auditorium', 'Bar', 'Basketball Court', 'Bookstore', 'Cafeteria', 'Classroom', 'Clothing store', 'Club', 'Dorms', 'Football Field', 'Grocery Store', 'Gym', 'Hallway', 'Library', 'Lab', 'Laundry Room', 'Restaurant', 'Stadium', 'Stairwell', 'Student Central', 'Quad']
+# majors = ['Architecture', 'Art', 'Biology', 'Business', 'Chemistry', 'Computer Science', 'Criminology', 'Education', 'Economics', 'Engineering', 'Health', 'History', 'Mathematics', 'Sociology', 'Writing']
+npc_list = []
+npc_dict = []
 
 class School:
   fem = 0
@@ -42,32 +45,16 @@ class Location:
 
 # Base class for all students
   '''
-  ╭ ---------------- ╮
-  *    Attributes    *
-  ╰ ---------------- ╯
+  ╭ ------------------------ ╮
+  *    Student Attributes    *
+  ╰ ------------------------ ╯
   name: string
-  gpa: float
-  courses: dictionary formatted with each course as the key and the grade as value 
-          --> {'English': B-}
-  friends: dictionary formatted with the friend's name as the key and the friendship level as the value 
-          --> {'friend1 name': 50}
-  enemies: dictionary formatted the same as friends, but will be anything less than 0 
-          --> {'enemy1 name': -20}
-  romantic_interest: list of dictionaries formatted with name of NPC's name key with interest level value, a status of bf/gf key &a boolean value 
-          --> {'love interest name': 45, 'bf/gf': False}
-  personality_traits: list of where they fall on the Big Five personality traits (conscientiousness, agreeableness, neuroticism, openness to experience, extraversion)
-          --> ['extravagant/careless', 'friendly/compassionate', ...]
-
-  May move the friends, enemies, and romantic_interest to be only on the player
+  personality_traits: dictionary of where they fall on the Big Five personality traits 0-10 (conscientiousness, agreeableness, neuroticism, openness to experience, extraversion)
+          --> {'conscientiousness': 7, 'agreeableness': 3, ...}
   '''
 class Student:
   def __init__(self):
     self.name = ''
-    self.gpa = 0
-    self.courses = {}
-    self.friends = {}
-    self.enemies = {}
-    self.romantic_interest = {}
     self.personality_traits = {}
 
   def calculateGPA(self):
@@ -75,23 +62,90 @@ class Student:
       self.gpa += calc_gpa[value]
     self.gpa = self.gpa/len(self.courses)
 
+# Class for player
+'''
+  ╭ ----------------------- ╮
+  *    Player Attributes    *
+  ╰ ----------------------- ╯
+  gpa: float
+  courses: dictionary formatted with each course as the key and the grade as value 
+          --> {'English': B-}
+  friends: dictionary formatted with the friend's name as the key and the friendship level as the value 
+          --> {'friend1 name': 50, ...}
+  enemies: dictionary formatted the same as friends, but will be anything less than 0 
+          --> {'enemy1 name': -20, ...}
+  romantic_interest: list of dictionaries formatted with name of NPC's name key with interest level value, a status of bf/gf key &a boolean value 
+          --> [{'love interest name': 45, 'bf/gf': False}, ...]
+'''
 class Player(Student):
   def __init__(self):
     super().__init__()
+    self.gpa = 0
+    self.courses = {}
+    self.friends = {}
+    self.enemies = {}
+    self.romantic_interest = {}
     
 
+# Class for NPCs
+'''
+  ╭ -------------------- ╮
+  *    NPC Attributes    *
+  ╰ -------------------- ╯
+  fem: boolean
+      True for feminine NPC, False for masculine NPC
+'''
 class NpcStudent(Student):
   def __init__(self):
     super().__init__()
     coin_flip = random.randint(1, 2)
-    print(coin_flip)
-    if coin_flip == 1: self.fem = True
-    elif coin_flip == 2: self.fem = False
+    if coin_flip == 1 and School.fem < 5 or School.masc == 5 and School.fem < 5: self.fem = True; School.fem += 1
+    elif coin_flip == 2 and School.masc < 5 or School.fem == 5 and School.masc < 5: self.fem = False; School.masc += 1
+    npc_list.append(self)
+    self.npc_info = {}
+    self.friendship = 0
+    self.romance = 0
+  
+  def choose_name(self):
+    if self.fem == True:
+      rand_first = random.randint(0, len(fem_names))
+      rand_last = random.randint(0, len(surnames))
+      self.name = fem_names[rand_first] + " " + surnames[rand_last]
+      print('FEM:' + ' ' + self.name)
+    else:
+      rand_first = random.randint(0, len(masc_names))
+      rand_last = random.randint(0, len(surnames))
+      self.name = masc_names[rand_first] + " " + surnames[rand_last]
+      print('MASC:' + ' ' + self.name)
+    self.npc_info['name'] = self.name
+    self.npc_info['friendship'] = self.friendship
+    self.npc_info['romance'] = self.romance
+    npc_dict.append(self.npc_info)
     
 
 player = Player()
 player.name = 'Brielle'
 print(player.name)
+npc1 = NpcStudent()
+npc2 = NpcStudent()
+npc3 = NpcStudent()
+npc4 = NpcStudent()
+npc5 = NpcStudent()
+npc6 = NpcStudent()
+npc7 = NpcStudent()
+npc8 = NpcStudent()
+npc9 = NpcStudent()
+npc10 = NpcStudent()
+for npc in npc_list:
+  npc.choose_name()
+print(f'''
+FEM: {School.fem}
+MASC: {School.masc}
+''')
+print(npc_dict)
+
+
+
 
 
 # def load_save(player:Player):
