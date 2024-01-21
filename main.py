@@ -110,13 +110,20 @@ class NpcStudent(Student):
     if self.fem == True:
       rand_first = random.randint(0, len(fem_names))
       rand_last = random.randint(0, len(surnames))
-      self.name = fem_names[rand_first] + " " + surnames[rand_last]
+      if fem_names[rand_first] in surnames[rand_last] or surnames[rand_last] in fem_names[rand_first]:
+        if surnames[rand_last] == len(surnames) - 1: self.name = fem_names[rand_first] + ' ' + surnames[rand_last - 1]
+        else: self.name = fem_names[rand_first] + ' ' + surnames[rand_last + 1]
+      else: self.name = fem_names[rand_first] + ' '  + surnames[rand_last]
       print('FEM:' + ' ' + self.name)
     else:
       rand_first = random.randint(0, len(masc_names))
       rand_last = random.randint(0, len(surnames))
-      self.name = masc_names[rand_first] + " " + surnames[rand_last]
+      if masc_names[rand_first] in surnames[rand_last] or surnames[rand_last] in masc_names[rand_first]:
+        if surnames[rand_last] == len(surnames) - 1: self.name = masc_names[rand_first] + ' ' + surnames[rand_last - 1]
+        else: self.name = masc_names[rand_first] + ' ' + surnames[rand_last + 1]
+      else: self.name = masc_names[rand_first] + ' ' + surnames[rand_last]
       print('MASC:' + ' ' + self.name)
+    self.npc_info['fem'] = self.fem
     self.npc_info['name'] = self.name
     self.npc_info['friendship'] = self.friendship
     self.npc_info['romance'] = self.romance
