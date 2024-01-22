@@ -4,7 +4,7 @@ import os
 import random
 from reusable import y_n_resp, prcnt_to_grade as prcnt, grade_to_gpa as calc_gpa
 from start import start_screen_title, start_new, start_new_or_load, intro
-from data import fem_names, masc_names, surnames
+from data import fem_names, masc_names, gend_neut_names as nb_names, surnames
 
 seasons_dict = {1: 'Autumn', 2: 'Winter', 3: 'Spring', 4: 'Summer'}
 grade_levels_dict = {1: 'Freshman', 2: 'Sophomore', 3: 'Junior', 4: 'Senior'}
@@ -16,13 +16,14 @@ npc_dict = []
 class School:
   fem = 0
   masc = 0
+  nb = 0
   actions = 0
   name = 'Oxbridge University'
   season = seasons_dict[1]
   day = 1
 
   def __init__(self):
-    students = []
+    pass
 
   def changeDay(self):
     if School.actions >= 6:
@@ -55,7 +56,7 @@ class Location:
 class Student:
   def __init__(self):
     self.name = ''
-    self.personality_traits = {}
+    self.personality_traits = {'conscientiousness': 0, 'agreeableness': 0, 'neuroticism': 0, 'openess to experience': 0, 'extraversion': 0}
 
   def calculateGPA(self):
     for value in self.courses.values():
@@ -98,32 +99,40 @@ class Player(Student):
 class NpcStudent(Student):
   def __init__(self):
     super().__init__()
-    coin_flip = random.randint(1, 2)
-    if coin_flip == 1 and School.fem < 5 or School.masc == 5 and School.fem < 5: self.fem = True; School.fem += 1
-    elif coin_flip == 2 and School.masc < 5 or School.fem == 5 and School.masc < 5: self.fem = False; School.masc += 1
+    self.gender = ''
+    coin_flip = random.randint(1, 3)
+    if coin_flip == 1 and School.fem < 5 or School.masc == 5 and School.fem < 5 or School.nb == 5 and School.fem < 5: self.gender = 'fem'; School.fem += 1
+    elif coin_flip == 2 and School.masc < 5 or School.fem == 5 and School.masc < 5 or School.nb == 5 and School.masc < 5: self.gender = 'masc'; School.masc += 1
+    elif coin_flip == 3 and School.nb < 5 or School.fem == 5 and School.nb < 5 or School.masc == 5 and School.enby < 5: self.gender = 'nb'; School.nb += 1
     npc_list.append(self)
     self.npc_info = {}
     self.friendship = 0
     self.romance = 0
   
   def choose_name(self):
-    if self.fem == True:
+    rand_last = random.randint(0, len(surnames))
+    if self.gender == 'fem':
       rand_first = random.randint(0, len(fem_names))
-      rand_last = random.randint(0, len(surnames))
       if fem_names[rand_first] in surnames[rand_last] or surnames[rand_last] in fem_names[rand_first]:
-        if surnames[rand_last] == len(surnames) - 1: self.name = fem_names[rand_first] + ' ' + surnames[rand_last - 1]
+        if rand_last == len(surnames) - 1: self.name = fem_names[rand_first] + ' ' + surnames[rand_last - 1]
         else: self.name = fem_names[rand_first] + ' ' + surnames[rand_last + 1]
       else: self.name = fem_names[rand_first] + ' '  + surnames[rand_last]
       print('FEM:' + ' ' + self.name)
-    else:
+    elif self.gender == 'masc':
       rand_first = random.randint(0, len(masc_names))
-      rand_last = random.randint(0, len(surnames))
       if masc_names[rand_first] in surnames[rand_last] or surnames[rand_last] in masc_names[rand_first]:
-        if surnames[rand_last] == len(surnames) - 1: self.name = masc_names[rand_first] + ' ' + surnames[rand_last - 1]
+        if rand_last == len(surnames) - 1: self.name = masc_names[rand_first] + ' ' + surnames[rand_last - 1]
         else: self.name = masc_names[rand_first] + ' ' + surnames[rand_last + 1]
       else: self.name = masc_names[rand_first] + ' ' + surnames[rand_last]
       print('MASC:' + ' ' + self.name)
-    self.npc_info['fem'] = self.fem
+    elif self.gender == 'nb':
+      rand_first = random.randint(0, len(nb_names))
+      if nb_names[rand_first] in surnames[rand_last] or surnames[rand_last] in nb_names[rand_first]:
+        if rand_last == len(surnames) - 1: self.name = nb_names[rand_first] + ' ' + surnames[rand_last - 1]
+        else: self.name = nb_names[rand_first] + ' ' + surnames[rand_last + 1]
+      else: self.name = nb_names[rand_first] + ' ' + surnames[rand_last]
+      print('NB:' + ' ' + self.name)
+    self.npc_info['gender'] = self.gender
     self.npc_info['name'] = self.name
     self.npc_info['friendship'] = self.friendship
     self.npc_info['romance'] = self.romance
@@ -143,14 +152,19 @@ npc7 = NpcStudent()
 npc8 = NpcStudent()
 npc9 = NpcStudent()
 npc10 = NpcStudent()
+npc11 = NpcStudent()
+npc12 = NpcStudent()
+npc13 = NpcStudent()
+npc14 = NpcStudent()
+npc15 = NpcStudent()
 for npc in npc_list:
   npc.choose_name()
 print(f'''
 FEM: {School.fem}
 MASC: {School.masc}
+NB: {School.nb}
 ''')
 print(npc_dict)
-
 
 
 
