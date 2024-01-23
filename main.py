@@ -137,7 +137,39 @@ class NpcStudent(Student):
     self.npc_info['friendship'] = self.friendship
     self.npc_info['romance'] = self.romance
     npc_dict.append(self.npc_info)
-    
+
+  def chooseResponse(self):
+    if self.romance >= 10:
+      self.chooseRomanticResponse()
+    if self.friendship >= 0 and self.friendship <= 30:
+      response = 'neutral'
+      return response
+    elif self.friendship >= 31 and self.friendship <= 60:
+      response = 'friendly'
+      return response
+    elif self.friendship >= 61 and self.friendship <= 100:
+      response = 'warmhearted'
+      return response
+    elif self.friendship <= -1 and self.friendship >= -30:
+      response = 'distant'
+      return response
+    elif self.friendship <= -31 and self.friendship >= -60:
+      response = 'antagonistic'
+      return response
+    elif self.friendship <= -61 and self.friendship >= -100:
+      response = 'hostile'
+      return response
+
+  def chooseRomanticResponse(self):
+    if self.romance >= 1 and self.romance <= 30:
+      response = 'flattered'
+      return response
+    elif self.romance >= 31 and self.romance <= 60:
+      response = 'flirtatious'
+      return response
+    elif self.romance >= 61 and self.romance <= 100:
+      response = 'loving'
+      return response
 
 player = Player()
 player.name = 'Brielle'
