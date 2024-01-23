@@ -56,7 +56,7 @@ class Location:
 class Student:
   def __init__(self):
     self.name = ''
-    self.personality_traits = {'conscientiousness': 0, 'agreeableness': 0, 'neuroticism': 0, 'openess to experience': 0, 'extraversion': 0}
+    self.personality_traits = {'conscientiousness': 0, 'agreeableness': 0, 'neuroticism': 0, 'openness to experience': 0, 'extraversion': 0}
 
   def calculateGPA(self):
     for value in self.courses.values():
@@ -93,8 +93,18 @@ class Player(Student):
   ╭ -------------------- ╮
   *    NPC Attributes    *
   ╰ -------------------- ╯
-  fem: boolean
-      True for feminine NPC, False for masculine NPC
+  gender: 'fem', 'masc', or 'nb'
+  npc_info: dictionary to hold each npc's information
+            {'name': string, 'gender': string, 'friendship': int, 'romance': int, 'personality': {'conscientiousness': 7, 'agreeableness': 3, ...}}
+  friendship: level of friendship with player
+              -100 - 100
+  romance: level of romance with player
+            0 - 100
+  chooseName(): randomizes gender and chooses name based on their gender
+  create_personality(): randomizes how many points are put into each big personality trait
+  choose_response(): chooses the type of response the character gives in any given situation based on the friendship level
+  choose_romantic_response(): chooses a romantic response based on the romance level, if there's any romance higher than 0
+  add_to_dict(): add the npc's info to the npc dictionary
 '''
 class NpcStudent(Student):
   def __init__(self):
@@ -117,29 +127,48 @@ class NpcStudent(Student):
         if rand_last == len(surnames) - 1: self.name = fem_names[rand_first] + ' ' + surnames[rand_last - 1]
         else: self.name = fem_names[rand_first] + ' ' + surnames[rand_last + 1]
       else: self.name = fem_names[rand_first] + ' '  + surnames[rand_last]
-      print('FEM:' + ' ' + self.name)
     elif self.gender == 'masc':
       rand_first = random.randint(0, len(masc_names))
       if masc_names[rand_first] in surnames[rand_last] or surnames[rand_last] in masc_names[rand_first]:
         if rand_last == len(surnames) - 1: self.name = masc_names[rand_first] + ' ' + surnames[rand_last - 1]
         else: self.name = masc_names[rand_first] + ' ' + surnames[rand_last + 1]
       else: self.name = masc_names[rand_first] + ' ' + surnames[rand_last]
-      print('MASC:' + ' ' + self.name)
     elif self.gender == 'nb':
       rand_first = random.randint(0, len(nb_names))
       if nb_names[rand_first] in surnames[rand_last] or surnames[rand_last] in nb_names[rand_first]:
         if rand_last == len(surnames) - 1: self.name = nb_names[rand_first] + ' ' + surnames[rand_last - 1]
         else: self.name = nb_names[rand_first] + ' ' + surnames[rand_last + 1]
       else: self.name = nb_names[rand_first] + ' ' + surnames[rand_last]
-      print('NB:' + ' ' + self.name)
-    self.npc_info['gender'] = self.gender
     self.npc_info['name'] = self.name
+    self.npc_info['gender'] = self.gender
     self.npc_info['friendship'] = self.friendship
     self.npc_info['romance'] = self.romance
-    npc_dict.append(self.npc_info)
 
-  def chooseResponse(self):
-    if self.romance >= 10:
+  def create_personality(self):
+    points_allocated = 0
+    while points_allocated <= 23:
+      bigFive = random.randint(1, 5)
+      if bigFive == 1:
+        self.personality_traits['conscientiousness'] += 1
+        points_allocated += 1
+      if bigFive == 2:
+        self.personality_traits['agreeableness'] += 1
+        points_allocated += 1
+      if bigFive == 3:
+        self.personality_traits['neuroticism'] += 1
+        points_allocated += 1
+      if bigFive == 4:
+        self.personality_traits['openness to experience'] += 1
+        points_allocated += 1
+      if bigFive == 5:
+        self.personality_traits['extraversion'] += 1
+        points_allocated += 1
+    self.npc_info['personality'] = self.personality_traits
+    print(self.npc_info)
+      
+
+  def choose_response(self):
+    if self.romance >= 1:
       self.chooseRomanticResponse()
     if self.friendship >= 0 and self.friendship <= 30:
       response = 'neutral'
@@ -160,7 +189,7 @@ class NpcStudent(Student):
       response = 'hostile'
       return response
 
-  def chooseRomanticResponse(self):
+  def choose_romantic_response(self):
     if self.romance >= 1 and self.romance <= 30:
       response = 'flattered'
       return response
@@ -170,6 +199,9 @@ class NpcStudent(Student):
     elif self.romance >= 61 and self.romance <= 100:
       response = 'loving'
       return response
+  
+  def add_to_dict(self):
+    npc_dict.append(self.npc_info)
 
 player = Player()
 player.name = 'Brielle'
@@ -191,11 +223,8 @@ npc14 = NpcStudent()
 npc15 = NpcStudent()
 for npc in npc_list:
   npc.choose_name()
-print(f'''
-FEM: {School.fem}
-MASC: {School.masc}
-NB: {School.nb}
-''')
+  npc.create_personality()
+  npc.add_to_dict()
 print(npc_dict)
 
 
