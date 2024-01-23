@@ -95,11 +95,11 @@ class Player(Student):
   ╰ -------------------- ╯
   gender: 'fem', 'masc', or 'nb'
   npc_info: dictionary to hold each npc's information
-            {'name': string, 'gender': string, 'friendship': int, 'romance': int, 'personality': {'conscientiousness': 7, 'agreeableness': 3, ...}}
+          --> {'name': string, 'gender': string, 'friendship': int, 'romance': int, 'personality': {'conscientiousness': 7, 'agreeableness': 3, ...}}
   friendship: level of friendship with player
-              -100 - 100
+          --> -100 - 100
   romance: level of romance with player
-            0 - 100
+          --> 0 - 100
   chooseName(): randomizes gender and chooses name based on their gender
   create_personality(): randomizes how many points are put into each big personality trait
   choose_response(): chooses the type of response the character gives in any given situation based on the friendship level
